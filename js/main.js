@@ -2,20 +2,29 @@ var globalMap, globalOutput, myJson;
 var attrArray = ['STUSPS','NAME','tot1950','tot1960','tot1970','tot1980','tot1990','tot2000','tot2010','Grand_Tota'];
 var expressed = attrArray[0];
 
-// Credits for map located on bottom right of map
-var mbAttr = 'Map created by: Moe R, Stephanie B, and Dwight F';
-
-var mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZGZpZWxkMjMiLCJhIjoiY2p4NThuaGYxMDB3bDQ4cXd0eWJiOGJoeSJ9.T94xCeDwJ268CmzfMPXdmw';
 
 // Basemap options located on top right of map
-var grayscale   = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
-dark  = L.tileLayer(mbUrl, {id: 'mapbox.dark',   attribution: mbAttr}),
-outdoors = L.tileLayer(mbUrl, {id: 'mapbox.outdoors',   attribution: mbAttr});
+var grayscale   = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png', {
+	maxZoom: 20,
+	attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+}),
+dark  = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
+	maxZoom: 20,
+	attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+}),
+outdoors = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 19,
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}),
+empty = L.tileLayer('', {
+    maxZoom: 20,
+    attribution: 'Map created by: Moe R, Stephanie B, and Dwight F'
+});
 
 //createMap builds map, returns variable globalMap
 function createMap(){
 	//create map
-    const map = L.map('map', {
+    var map = L.map('map', {
             center: [32.38, -84.00],
             zoom: 5.4,
             minZoom: 4,
@@ -25,6 +34,7 @@ function createMap(){
             "Grayscale": grayscale,
             "Topographic": outdoors,
             "Darkscale": dark,
+                "None": empty,
         };
 
             //call getData
@@ -227,3 +237,4 @@ function init(){
     	globalMap.flyTo([32.38, -84.00], 5.5); //[lat, lng], zoom
     });
 };
+
